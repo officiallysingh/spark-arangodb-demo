@@ -19,19 +19,19 @@ public class ReadDemo {
             "genre IN ('History', 'Documentary') AND description LIKE '%World War%' AND releaseDate > '2000'")
         .show(20, 200);
 
-    System.out.println(
-        "Read query: actors of movies directed by Clint Eastwood with related movie title and interpreted role");
-    readQuery(
-            "WITH movies, persons\n"
-                + "FOR v, e, p IN 2 ANY 'persons/1062' OUTBOUND directed, INBOUND actedIn\n"
-                + "   RETURN {movie: p.vertices[1].title, name: v.name, role: p.edges[1].name}",
-            new StructType(
-                new StructField[] {
-                  new StructField("movie", DataTypes.StringType, false, Metadata.empty()),
-                  new StructField("name", DataTypes.StringType, false, Metadata.empty()),
-                  new StructField("role", DataTypes.StringType, false, Metadata.empty())
-                }))
-        .show(20, 200);
+//    System.out.println(
+//        "Read query: actors of movies directed by Clint Eastwood with related movie title and interpreted role");
+//    readQuery(
+//            "WITH movies, persons\n"
+//                + "FOR v, e, p IN 2 ANY 'persons/1062' OUTBOUND directed, INBOUND actedIn\n"
+//                + "   RETURN {movie: p.vertices[1].title, name: v.name, role: p.edges[1].name}",
+//            new StructType(
+//                new StructField[] {
+//                  new StructField("movie", DataTypes.StringType, false, Metadata.empty()),
+//                  new StructField("name", DataTypes.StringType, false, Metadata.empty()),
+//                  new StructField("role", DataTypes.StringType, false, Metadata.empty())
+//                }))
+//        .show(20, 200);
   }
 
   static Dataset<Row> readTable(String tableName, StructType schema) {

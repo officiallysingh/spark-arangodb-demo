@@ -8,8 +8,8 @@ public class Schemas {
   public static final String[] MOVIE_FIELD_NAMES = {
     "_key", "title", "releaseDate", "lastModified", "type"
   };
-  public static final String[] DIRECTED_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
-  public static final String[] ACTED_IN_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
+//  public static final String[] DIRECTED_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
+//  public static final String[] ACTED_IN_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
 
   public static StructType movieSchema() {
     return DataTypes.createStructType(
@@ -46,24 +46,24 @@ public class Schemas {
         });
   }
 
-  public static StructType actsInSchema() {
-    return DataTypes.createStructType(
-        new StructField[] {
-          DataTypes.createStructField("_id", DataTypes.StringType, false),
-          DataTypes.createStructField("_key", DataTypes.StringType, false),
-          DataTypes.createStructField("_from", DataTypes.StringType, false),
-          DataTypes.createStructField("_to", DataTypes.StringType, false),
-          DataTypes.createStructField("name", DataTypes.StringType, true)
-        });
-  }
-
-  public static StructType directedSchema() {
-    return DataTypes.createStructType(
-        new StructField[] {
-          DataTypes.createStructField("_id", DataTypes.StringType, false),
-          DataTypes.createStructField("_key", DataTypes.StringType, false),
-          DataTypes.createStructField("_from", DataTypes.StringType, false),
-          DataTypes.createStructField("_to", DataTypes.StringType, false)
-        });
-  }
+//  public static StructType actsInSchema() {
+//    return DataTypes.createStructType(
+//        new StructField[] {
+//          DataTypes.createStructField("_id", DataTypes.StringType, false),
+//          DataTypes.createStructField("_key", DataTypes.StringType, false),
+//          DataTypes.createStructField("_from", DataTypes.StringType, false),
+//          DataTypes.createStructField("_to", DataTypes.StringType, false),
+//          DataTypes.createStructField("name", DataTypes.StringType, true)
+//        });
+//  }
+//
+//  public static StructType directedSchema() {
+//    return DataTypes.createStructType(
+//        new StructField[] {
+//          DataTypes.createStructField("_id", DataTypes.StringType, false),
+//          DataTypes.createStructField("_key", DataTypes.StringType, false),
+//          DataTypes.createStructField("_from", DataTypes.StringType, false),
+//          DataTypes.createStructField("_to", DataTypes.StringType, false)
+//        });
+//  }
 }

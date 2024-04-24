@@ -47,21 +47,22 @@ public class WriteDemo {
             .withColumn("_to", concat(lit("movies/"), col("_to")))
             .persist();
 
-    edgesDF.printSchema();
     Dataset<Row> personsDF =
         nodesDF.selectExpr(Schemas.PERSON_FIELD_NAMES).filter("type = 'Person'");
     Dataset<Row> moviesDF = nodesDF.selectExpr(Schemas.MOVIE_FIELD_NAMES).filter("type = 'Movie'");
-    Dataset<Row> directedDF =
-        edgesDF
-            .selectExpr(Schemas.DIRECTED_FIELD_NAMES)
-            .filter("`$label` = 'DIRECTED'");
-    directedDF = directedDF.filter(col("_from").isNotNull());
+//    Dataset<Row> directedDF =
+//        edgesDF
+//            .selectExpr(Schemas.DIRECTED_FIELD_NAMES)
+//            .filter("`$label` = 'DIRECTED'")
+//            .filter(col("_from").isNotNull()) // Ensure _from is not null
+//            .filter(col("_to").isNotNull()); // Ensure _to is not null
 
-    Dataset<Row> actedInDF =
-        edgesDF
-            .selectExpr(Schemas.ACTED_IN_FIELD_NAMES)
-            .filter("`$label` = 'ACTS_IN'");
-    actedInDF = actedInDF.filter(col("_from").isNotNull());
+//    Dataset<Row> actedInDF =
+//        edgesDF
+//            .selectExpr(Schemas.ACTED_IN_FIELD_NAMES)
+//            .filter("`$label` = 'ACTS_IN'")
+//            .filter(col("_from").isNotNull()) // Ensure _from is not null
+//            .filter(col("_to").isNotNull()); // Ensure _to is not null
 
     System.out.println("Writing 'persons' collection...");
     saveDF(personsDF, "persons", Demo.TABLE_TYPE_DOCUMENT);
@@ -69,11 +70,13 @@ public class WriteDemo {
     System.out.println("Writing 'movies' collection...");
     saveDF(moviesDF, "movies", Demo.TABLE_TYPE_DOCUMENT);
 
-    System.out.println("Writing 'directed' edge collection...");
-    saveDF(directedDF, "directed", Demo.TABLE_TYPE_EDGE);
-
-    System.out.println("Writing 'actedIn' edge collection...");
-    saveDF(actedInDF, "actedIn", Demo.TABLE_TYPE_EDGE);
+//    directedDF.printSchema();
+//    directedDF.show(200000);
+//    System.out.println("Writing 'directed' edge collection...");
+//    saveDF(directedDF, "directed", Demo.TABLE_TYPE_EDGE);
+//
+//    System.out.println("Writing 'actedIn' edge collection...");
+//    saveDF(actedInDF, "actedIn", Demo.TABLE_TYPE_EDGE);
   }
 
   private static Column unixTsToSparkTs(Column c) {
