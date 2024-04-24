@@ -9,6 +9,7 @@ public class Demo {
   static final String TABLE_TYPE_DOCUMENT = "document";
   static final String TABLE_TYPE_EDGE = "edge";
 
+  private static final String DATABASE = System.getProperty("database", "test_db");
   private static final String PASSWORD = System.getProperty("password", "admin");
   //  private static final String ENDPOINTS =
   //      System.getProperty("endpoints", "172.28.0.1:8529,172.28.0.1:8539,172.28.0.1:8549");
@@ -26,6 +27,7 @@ public class Demo {
   static final Map<String, String> OPTIONS = new HashMap<>();
 
   static {
+    OPTIONS.put("database", DATABASE);
     OPTIONS.put("password", PASSWORD);
     OPTIONS.put("endpoints", ENDPOINTS);
     OPTIONS.put("ssl.enabled", SSL_ENABLED);

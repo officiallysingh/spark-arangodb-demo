@@ -7,19 +7,10 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.functions;
+import org.apache.spark.sql.functions.*;
 import org.apache.spark.sql.types.DataTypes;
 
 public class WriteDemo {
-
-  private static final String[] PERSON_FIELD_NAMES = {
-    "_key", "name", "releaseDate", "birthday", "lastModified", "type"
-  };
-  private static final String[] MOVIE_FIELD_NAMES = {
-    "_key", "title", "releaseDate", "lastModified", "type"
-  };
-  private static final String[] DIRECTED_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
-  private static final String[] ACTED_IN_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
 
   private static final SparkSession spark =
       SparkSession.builder().appName("WriteDemo").master("local[*]").getOrCreate();
@@ -42,7 +33,6 @@ public class WriteDemo {
         spark
             .read()
             .json(Demo.IMPORT_PATH + "/nodes.jsonl")
-            .withColumn("_key", functions.col("_key").isNotNull())
             .withColumn("releaseDate", unixTsToSparkDate(col("releaseDate")))
             .withColumn("birthday", unixTsToSparkDate(col("birthday")))
             .withColumn("lastModified", unixTsToSparkTs(col("lastModified")))
@@ -51,17 +41,27 @@ public class WriteDemo {
         spark
             .read()
             .json(Demo.IMPORT_PATH + "/edges.jsonl")
-            .withColumn("_key", functions.col("_key").isNotNull())
-            .withColumn("_from", functions.concat(lit("persons/"), col("_from")).isNotNull())
-            .withColumn("_to", functions.concat(lit("movies/"), col("_to")).isNotNull())
+            //            .withColumn("_from", concat(lit("persons/"), col("_from")).isNotNull())
+            //            .withColumn("_to", concat(lit("movies/"), col("_to")).isNotNull())
+            .withColumn("_from", concat(lit("persons/"), col("_from")))
+            .withColumn("_to", concat(lit("movies/"), col("_to")))
             .persist();
 
-    Dataset<Row> personsDF = nodesDF.selectExpr(PERSON_FIELD_NAMES).filter("type = 'Person'");
-    Dataset<Row> moviesDF = nodesDF.selectExpr(MOVIE_FIELD_NAMES).filter("type = 'Movie'");
+    edgesDF.printSchema();
+    Dataset<Row> personsDF =
+        nodesDF.selectExpr(Schemas.PERSON_FIELD_NAMES).filter("type = 'Person'");
+    Dataset<Row> moviesDF = nodesDF.selectExpr(Schemas.MOVIE_FIELD_NAMES).filter("type = 'Movie'");
     Dataset<Row> directedDF =
-        edgesDF.selectExpr(DIRECTED_FIELD_NAMES).filter("`$label` = 'DIRECTED'");
+        edgesDF
+            .selectExpr(Schemas.DIRECTED_FIELD_NAMES)
+            .filter("`$label` = 'DIRECTED'");
+    directedDF = directedDF.filter(col("_from").isNotNull());
+
     Dataset<Row> actedInDF =
-        edgesDF.selectExpr(ACTED_IN_FIELD_NAMES).filter("`$label` = 'ACTS_IN'");
+        edgesDF
+            .selectExpr(Schemas.ACTED_IN_FIELD_NAMES)
+            .filter("`$label` = 'ACTS_IN'");
+    actedInDF = actedInDF.filter(col("_from").isNotNull());
 
     System.out.println("Writing 'persons' collection...");
     saveDF(personsDF, "persons", Demo.TABLE_TYPE_DOCUMENT);
@@ -77,7 +77,6 @@ public class WriteDemo {
   }
 
   private static Column unixTsToSparkTs(Column c) {
-    ////    return functions.expr("CAST(" + c.toString() + " AS TIMESTAMP) / 1000");
     return from_unixtime(c);
   }
 

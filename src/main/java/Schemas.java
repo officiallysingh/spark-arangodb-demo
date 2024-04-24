@@ -2,6 +2,15 @@ import org.apache.spark.sql.types.*;
 
 public class Schemas {
 
+  public static final String[] PERSON_FIELD_NAMES = {
+    "_key", "name", "releaseDate", "birthday", "lastModified", "type"
+  };
+  public static final String[] MOVIE_FIELD_NAMES = {
+    "_key", "title", "releaseDate", "lastModified", "type"
+  };
+  public static final String[] DIRECTED_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
+  public static final String[] ACTED_IN_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
+
   public static StructType movieSchema() {
     return DataTypes.createStructType(
         new StructField[] {
