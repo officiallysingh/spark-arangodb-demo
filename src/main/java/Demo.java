@@ -7,6 +7,7 @@ public class Demo {
   static final String IMPORT_PATH =
       System.getProperty("importPath", "spark-arangodb-demo/src/main/resources/import");
   static final String TABLE_TYPE_DOCUMENT = "document";
+  static final String TABLE_TYPE_EDGE = "edge";
 
   private static final String PASSWORD = System.getProperty("password", "admin");
   //  private static final String ENDPOINTS =

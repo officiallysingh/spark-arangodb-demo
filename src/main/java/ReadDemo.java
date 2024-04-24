@@ -40,7 +40,6 @@ public class ReadDemo {
         .format("com.arangodb.spark")
         .options(Demo.OPTIONS)
         .option("table", tableName)
-        //                .options(Demo.OPTIONS + ("table", tableName))
         .schema(schema)
         .load();
   }
@@ -51,7 +50,6 @@ public class ReadDemo {
         .format("com.arangodb.spark")
         .options(Demo.OPTIONS)
         .option("query", query)
-        //                .options(Demo.OPTIONS + ("query", query))
         .schema(schema)
         .load();
   }

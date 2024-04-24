@@ -18,8 +18,8 @@ public class WriteDemo {
   private static final String[] MOVIE_FIELD_NAMES = {
     "_key", "title", "releaseDate", "lastModified", "type"
   };
-  private static final String[] DIRECTED_FIELD_NAMES = {"_key", "_from", "_to", "$label"};
-  private static final String[] ACTED_IN_FIELD_NAMES = {"_key", "_from", "_to", "$label"};
+  private static final String[] DIRECTED_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
+  private static final String[] ACTED_IN_FIELD_NAMES = {"_key", "_from", "_to", "`$label`"};
 
   private static final SparkSession spark =
       SparkSession.builder().appName("WriteDemo").master("local[*]").getOrCreate();
@@ -70,14 +70,15 @@ public class WriteDemo {
     saveDF(moviesDF, "movies", Demo.TABLE_TYPE_DOCUMENT);
 
     System.out.println("Writing 'directed' edge collection...");
-    saveDF(directedDF, "directed", "edge");
+    saveDF(directedDF, "directed", Demo.TABLE_TYPE_EDGE);
 
     System.out.println("Writing 'actedIn' edge collection...");
-    saveDF(actedInDF, "actedIn", "edge");
+    saveDF(actedInDF, "actedIn", Demo.TABLE_TYPE_EDGE);
   }
 
   private static Column unixTsToSparkTs(Column c) {
-    return functions.expr("CAST(" + c.toString() + " AS TIMESTAMP) / 1000");
+    ////    return functions.expr("CAST(" + c.toString() + " AS TIMESTAMP) / 1000");
+    return from_unixtime(c);
   }
 
   private static Column unixTsToSparkDate(Column c) {
@@ -88,6 +89,7 @@ public class WriteDemo {
     df.write()
         .mode(SaveMode.Overwrite)
         .format("com.arangodb.spark")
+        .options(Demo.OPTIONS)
         .options(SAVE_OPTIONS)
         .option("table", tableName)
         .option("table.type", tableType)
