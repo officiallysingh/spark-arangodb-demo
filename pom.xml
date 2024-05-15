@@ -9,13 +9,16 @@
     <version>${arangodb-spark-datasource.version}</version>
 
     <properties>
+<!--        <scala.version>2.13.8</scala.version>-->
         <scala.version>2.13.8</scala.version>
         <scala.compat.version>2.13</scala.compat.version>
-        <spark.version>3.4.1</spark.version>
-        <spark.compat.version>3.4</spark.compat.version>
+<!--        <spark.version>3.4.1</spark.version>-->
+<!--        <spark.compat.version>3.4</spark.compat.version>-->
+        <spark.version>3.5.1</spark.version>
+        <spark.compat.version>3.5</spark.compat.version>
         <arangodb-spark-datasource.version>1.6.0</arangodb-spark-datasource.version>
 
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -33,38 +36,41 @@
         <!--        </dependency>-->
 
         <!-- Spark Dependencies -->
+<!--        <dependency>-->
+<!--            <groupId>com.arangodb</groupId>-->
+<!--            <artifactId>arangodb-spark-datasource-${spark.compat.version}_${scala.compat.version}</artifactId>-->
+<!--            <version>${arangodb-spark-datasource.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.arangodb</groupId>
-            <artifactId>arangodb-spark-datasource-${spark.compat.version}_${scala.compat.version}</artifactId>
+            <artifactId>arangodb-spark-datasource-3.4_${scala.compat.version}</artifactId>
             <version>${arangodb-spark-datasource.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
-<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
-<!--            <scope>provided</scope>-->
         </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-mllib_${scala.compat.version}</artifactId>
-            <version>${spark.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.spark</groupId>-->
+<!--            <artifactId>spark-mllib_${scala.compat.version}</artifactId>-->
+<!--            <version>${spark.version}</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.slf4j</groupId>-->
+<!--                    <artifactId>slf4j-log4j12</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.slf4j</groupId>-->
+<!--                    <artifactId>slf4j-simple</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <!-- Test -->
         <dependency>
